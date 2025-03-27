@@ -1,32 +1,23 @@
-# pycord-template
+# Cy | bot
 
-Discord bot template using Pycord, with instructions on free Render deployment
+Discord bot interface for my programs
+
+<img height="128px" width="128px" src="./cy-logo.png" alt="ytgo logo">
 
 ## Usage
 
-1. Click <kbd>Use this template</kbd> (green button, usually in the top-right area of this page)
+1. Create a bot via Discord Developer Portal.
 
-2. Select "Create new repository"
+2. From the left list of tabs, select Installation and copy the Install Link.
 
-3. In your repository, edit the following files:
-    - [README.md](./README.md) (this file) for documentation
-    - [TERMS.md](./TERMS.md) to reflect your bot's terms of service
-    - [PRIVACY.md](./PRIVACY.md) to reflect your bot's privacy policy
-    - [bot.py](./bot.py) for main bot functionality
-    - [render.yml](./render.yaml) for deployment configuration
-    - [requirements.txt](./requirements.txt) and [Dockerfile](./Dockerfile) if your bot requires additional dependencies
-    - [.envrc](./.envrc) to change dev shell method or adding environment variables to dev shells
-    - [shell.nix](./shell.nix) to modify the dev shell
+3. Visit the Install Link in a browser and add your bot to desired server(s) and/or guild(s).
+    - Add scope `application.commands` and `bot` with permissions `Send Messages`, `Send Messages in Threads`, and `Use Slash Commands` to the Invite Link before using it (Discord Developer Portal `>` Installation `>` Guild Install)
 
-4. Create a tagged release after you're done editing your bot, and let the GitHub Actions workflow run
+4. Deploy bot to Azure Container Apps through [portal.azure.com](https://portal.azure.com)
+    - Set the `BOT_TOKEN` environment variable to source from a secret storing your bot's token (Discord Developer Portal `>` Bot `>` Token)
+    - Azure was chosen here because it's free and doesn't spin down when idle. Feel free to deploy on a platform of your choice.
 
-5. Create a bot in the [Discord Developer Portal](<https://discord.com/developers/applications> "link to Discord Developer Portal")
-    - copy the bot token and store it securely; this will be needed for deployment
-
-6. Deploy bot image to Azure Container Apps through [portal.azure.com](https://portal.azure.com)
-    - add your bot token (from step 5) as a Secret and source it to the value of an Environment Variable `BOT_TOKEN` during deployment
-
-7. Add your bot to a Discord server and see it in action
-
-> [!NOTE]
-> Azure was chosen here because it's free and doesn't spin down when idle. Feel free to deploy on a platform of your choice.
+5. Test the bot:
+    - Send `/say <message>` in a server/guild with the bot to make the bot send a message with the specified content.
+    - Send `/yt <query> <embed:optional>` in a server/guild with the bot to return the URL of the first search result on YouTube with the specified query.
+    - Send `/resumake <file> <filename:optional>` in a server/guild with the bot and attach a YAML file in [this format](<https://github.com/cybardev/resumake/blob/main/resume.yml> "YAML data input format for Resumake") and give an optional filename to get back a PDF resume.
