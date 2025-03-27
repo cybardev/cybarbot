@@ -1,0 +1,9 @@
+# Compose file for dev testing
+
+services:
+  app:
+    build: .
+    ports:
+      - 10000:10000
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN}
