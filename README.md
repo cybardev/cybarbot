@@ -1,6 +1,6 @@
 # Cy | bot
 
-Discord bot interface for my programs
+Discord bot interface for software by cybardev
 
 <img height="128px" width="128px" src="./cy-logo.png" alt="ytgo logo">
 
