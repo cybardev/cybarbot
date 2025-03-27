@@ -18,9 +18,12 @@ bot = discord.Bot()
 )
 @discord.option("msg", description="What to say")
 async def say(ctx, msg: str):
-    await ctx.defer(ephemeral=True)
-    await ctx.delete()
-    await ctx.channel.send(msg)
+    if ctx.guild is None:
+        await ctx.respond(msg)
+    else:
+        await ctx.defer(ephemeral=True)
+        await ctx.delete()
+        await ctx.channel.send(msg)
 
 
 @bot.slash_command(
