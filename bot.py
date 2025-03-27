@@ -18,12 +18,12 @@ bot = discord.Bot()
 )
 @discord.option("msg", description="What to say")
 async def say(ctx, msg: str):
-    if ctx.guild is None:
-        await ctx.respond(msg)
-    else:
+    if ctx.interaction.context == discord.InteractionContextType.guild:
         await ctx.defer(ephemeral=True)
         await ctx.delete()
         await ctx.channel.send(msg)
+    else:
+        await ctx.respond(msg)
 
 
 @bot.slash_command(
