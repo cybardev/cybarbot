@@ -1,0 +1,10 @@
+# Render Blueprint
+version: "1"
+services:
+  - type: web
+    plan: free
+    region: ohio
+    name: cybarbot
+    runtime: image
+    image:
+      url: ghcr.io/cybardev/cybarbot:latest
