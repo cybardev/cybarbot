@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-import os
 import subprocess
 
 import discord
 
-from utils import generate_resume
+from utils import main, generate_resume
 
 bot = discord.Bot()
 
@@ -57,4 +56,4 @@ async def yt(ctx, query: str, embed: bool = True):
 
 
 if __name__ == "__main__":
-    bot.run(os.getenv("BOT_TOKEN"))
+    main(bot)
