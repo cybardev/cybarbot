@@ -3,6 +3,7 @@
 services:
   app:
     build: .
+    # image: ghcr.io/cybardev/cybarbot:latest
     ports:
       - 10000:10000
     environment:
