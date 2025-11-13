@@ -1,20 +1,15 @@
 #!/usr/bin/env python3
 import subprocess
+from datetime import datetime
 
 import discord
 
-from utils import main, generate_resume
+from utils import main, get_timestamp
 
 bot = discord.Bot()
 
 
-@bot.slash_command(
-    description="Send a message to the chat",
-    integration_types={
-        discord.IntegrationType.guild_install,
-        discord.IntegrationType.user_install,
-    },
-)
+@bot.slash_command(description="Send a message to the chat")
 @discord.option("msg", description="What to say")
 async def say(ctx, msg: str):
     if ctx.interaction.context == discord.InteractionContextType.guild:
@@ -25,29 +20,32 @@ async def say(ctx, msg: str):
         await ctx.respond(msg)
 
 
-@bot.slash_command(
-    description="Generate PDF resume from user information in YAML format",
-    integration_types={
-        discord.IntegrationType.guild_install,
-        discord.IntegrationType.user_install,
-    },
-)
-@discord.option("file", description="YAML input file")
-@discord.option("filename", description="PDF file name (without extension)")
-async def resumake(ctx, file: discord.Attachment, filename: str = "resume"):
+@bot.slash_command(description="Generate Discord timestamp for a given date and time")
+@discord.option("year", description="Year for timestamp")
+@discord.option("month", description="Month for timestamp")
+@discord.option("day", description="Day for timestamp")
+@discord.option("hour", description="Hour for timestamp")
+@discord.option("minute", description="Minutes for timestamp")
+@discord.option("second", description="Seconds for timestamp")
+@discord.option("tz", description="Timezone for timestamp (e.g. '-3:30')")
+@discord.option("fmt", description="Format for timestamp (e.g. 'R', 't', etc.)")
+async def timestamp(
+    ctx,
+    year: int = datetime.now().year,
+    month: int = datetime.now().month,
+    day: int = datetime.now().day,
+    hour: int = datetime.now().hour,
+    minute: int = datetime.now().minute,
+    second: int = datetime.now().second,
+    tz: str = "0",
+    fmt: str = "R",
+):
     await ctx.defer()
-    await file.save(f"{filename}.yaml")
-    await generate_resume(filename)
-    await ctx.respond(file=discord.File(f"{filename}.pdf"))
+    ts = get_timestamp(year, month, day, hour, minute, second, tz, fmt)
+    await ctx.respond(ts)
 
 
-@bot.slash_command(
-    description="Get the first video URL from a YouTube search",
-    integration_types={
-        discord.IntegrationType.guild_install,
-        discord.IntegrationType.user_install,
-    },
-)
+@bot.slash_command(description="Get the first video URL from a YouTube search")
 @discord.option("query", description="What to search")
 @discord.option("embed", description="Whether to show video embed")
 async def yt(ctx, query: str, embed: bool = True):

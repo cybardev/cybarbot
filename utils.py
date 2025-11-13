@@ -2,6 +2,7 @@ import asyncio
 import contextlib
 import logging
 import os
+from datetime import datetime, timezone, timedelta
 
 import aiohttp
 from aiohttp import web
@@ -39,18 +40,33 @@ def main(bot):
     app = web.Application()
     app.add_routes([web.get("/", _web_handler)])
     app.cleanup_ctx.append(lambda _app: _run_bot(_app, bot))
-    web.run_app(app, port=10000)
+    web.run_app(app, port=int(os.getenv("BOT_PORT", 10000)))
 
 
-async def generate_resume(filename):
-    async with aiohttp.ClientSession() as session:
-        async with session.post(
-            "https://resumake.cybar.dev/resume/",
-            data={"resume": open(f"{filename}.yaml", "rb")},
-        ) as res:
-            if res.status == 200:
-                pdf_content = await res.read()  # Read response content as bytes
-                with open(f"{filename}.pdf", "wb") as pdf_file:
-                    pdf_file.write(pdf_content)
-            else:
-                logger.error(f"Failed to generate resume. Error {res.status}")
+def get_timestamp(
+    year: int,
+    month: int,
+    day: int,
+    hour: int,
+    minute: int,
+    second: int,
+    tz_offset: str,
+    fmt: str,
+):
+    tz_h = int(tz_offset.split(":")[0])
+    tz_m = int(tz_offset.split(":")[1]) if ":" in tz_offset else 0
+    d = datetime(
+        year,
+        month,
+        day,
+        hour,
+        minute,
+        second,
+        tzinfo=timezone(
+            timedelta(
+                hours=tz_h,
+                minutes=tz_m,
+            )
+        ),
+    )
+    return f"<t:{int(d.timestamp())}:{fmt}>"
