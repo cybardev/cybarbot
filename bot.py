@@ -6,7 +6,12 @@ import discord
 
 from utils import main, get_timestamp
 
-bot = discord.Bot()
+bot = discord.Bot(
+    default_command_integration_types={
+        discord.IntegrationType.guild_install,
+        discord.IntegrationType.user_install,
+    }
+)
 
 
 @bot.slash_command(description="Send a message to the chat")
