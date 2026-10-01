@@ -36,12 +36,12 @@ async def say(ctx, msg: str):
 @discord.option("fmt", description="Format for timestamp (e.g. 'R', 't', etc.)")
 async def timestamp(
     ctx,
-    year: int = datetime.now().year,
-    month: int = datetime.now().month,
-    day: int = datetime.now().day,
-    hour: int = datetime.now().hour,
-    minute: int = datetime.now().minute,
-    second: int = datetime.now().second,
+    year: int = None,
+    month: int = None,
+    day: int = None,
+    hour: int = None,
+    minute: int = None,
+    second: int = None,
     tz: str = "0",
     fmt: str = "R",
 ):

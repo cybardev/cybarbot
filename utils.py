@@ -53,6 +53,20 @@ def get_timestamp(
     tz_offset: str,
     fmt: str,
 ):
+    now = datetime.now()
+    if year is None:
+        year = now.year
+    if month is None:
+        month = now.month
+    if day is None:
+        day = now.day
+    if hour is None:
+        hour = now.hour
+    if minute is None:
+        minute = now.minute
+    if second is None:
+        second = now.second
+
     tz_h = int(tz_offset.split(":")[0])
     tz_m = int(tz_offset.split(":")[1]) if ":" in tz_offset else 0
     d = datetime(
